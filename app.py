@@ -1,25 +1,10 @@
-from flask import Flask, request, jsonify, send_file
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_cors import CORS
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
-CORS(app)
-db = SQLAlchemy(app)
-Migrate(app, db)
-
-# модель для хранения задачи
-
+from manage import *
+from models import *
+from presents import *
 
 
 # презентер для задачи
-def present_task(task):
-    return {
-        "id": task.id,
-        "title": task.title,
-        "is_done": task.is_done
-    }
+
 
 @app.route('/logout')
 def logout():
@@ -36,7 +21,7 @@ def login():
     sth = False
     login = request.form.get('login')
     password = request.form.get('password')
-    user = User.query.filter_by(login=login).first()
+    user = Users.query.filter_by(login=login).first()
 
     if user and user.password == password:
         session['login'] = request.form.get('login')
@@ -56,12 +41,12 @@ def regin():
     login = request.form.get('login')
     password = request.form.get('password')
     name = request.form.get('name')
-    user = User.query.filter_by(login=login).first()
+    user = Users.query.filter_by(login=login).first()
     if user:
         return render_template('reg.html', error='Пользователь с данным логином уже зарегистрирован')
     elif login and password and name:
 
-        user = User(login=login, name=name, password=password)
+        user = Users(login=login, name=name, password=password)
 
         db.session.add(user)
         db.session.commit()
@@ -71,60 +56,15 @@ def regin():
 
 
 # получаем все задачи
-@app.route('/api/tasks', methods=['GET'])
-def get_tasks():
-    tasks = Task.query.all()
-    return [present_task(task) for task in tasks]
+@app.route('/api/library', methods=['GET'])
+def get_supplements():
+    supplements = Supplements.query.all()
+    return [present_supplement(supplement) for supplement in supplements]
 
 
 
 
-@app.route('/api/tasks', methods=['POST'])
-def add_task():
-    data = request.get_json()
 
-    # если нет названия - возвращаем ошибку
-    if not data.get('title'):
-        return jsonify({'error': 'no title'}), 400
-
-    task = Task(title=data['title'])
-    db.session.add(task)
-    db.session.commit()
-
-    return present_task(task)
-
-@app.route('/api/tasks/<int:task_id>', methods=['PATCH'])
-def get_change(task_id):
-    data = request.get_json()
-    title = data.get('title')
-    is_done = data.get('is_done')
-    if not title or not Task.query.filter_by(id=task_id).first():
-        return jsonify({'error': 'no title'}), 400
-    task = Task.query.filter_by(id=task_id).first()
-    task.is_done = is_done
-    task.title = title
-    db.session.commit()
-    return present_task(task)
-
-# при запросе главной страницы возвращаем html файл с фронтендом как файл (без шаблонизатора)
-@app.route('/')
-def index():
-    return send_file('index.html')
-
-
-@app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
-def del_tasks(task_id):
-    task = Task.query.filter_by(id=task_id).first()
-
-    if not task:
-        return jsonify({'reason': 'Task not found'}), 400
-    # удаляем запись
-    db.session.delete(task)
-    # сохраняем изменения
-    db.session.commit()
-
-    # возвращаем успешный ответ
-    return jsonify({'success': True})
 
 @app.route('/favicon.ico')
 def favicon():
