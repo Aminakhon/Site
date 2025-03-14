@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block  content %}
+
+
+
+
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+            {% for meme in memes %}
+            <div class="col-lg-3 col-md-4 col-12 my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <img src= {{ meme['image']}} height="100" width="100">
+                        <h3> {{meme['description']}} </h3>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-4 col-12 my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/add" method="post">
+
+                        <label style="margin: 5px;">Чилловая картинка:</label>
+                        <input style="margin: 5px;" type="text" name="image" />
+
+                        <label style="margin: 5px;">Чилловая подпись:</label>
+                        <input style="margin: 5px;" type="text" name="description" />
+                        <input style="margin: 5px;" type="submit" class="btn btn-success" value="Сохранить">
+                         </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<a href="/logout" style="margin: 5px;" class="btn btn-primary">Выйти</a>
+{% endblock %}

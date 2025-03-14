@@ -1,5 +1,6 @@
 from manage import db
 
+
 class Supplements(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -18,5 +19,5 @@ class User_Supplements(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     supplement_id = db.Column(db.Integer, db.ForeignKey('supplement.id', ondelete='CASCADE'), nullable=False)
 
-    user = db.relationship('Users', backref=db.backref('site'))
-    supplement = db.relationship('Supplements', backref=db.backref('site'))
+    user = db.relationship('Users', backref=db.backref('site', lazy=False))
+    supplement = db.relationship('Supplements', backref=db.backref('site', lazy=True), lazy=False)

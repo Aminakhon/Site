@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block  content %}
+
+<form method="post" action="/login">
+  <div class="container">
+    <div class="col-lg-3 col-md-4 col-12 my-3">
+       <div class="row">
+         {% if error != '' %}
+           <div class="alert alert-warning" role="alert">
+                {{error}}
+           </div>
+         {% endif %}
+
+         <label style="margin: 5px;">Login:</label>
+         <input style="margin: 5px;" type="text" name="login" />
+    
+         <label style="margin: 5px;">Password:</label>
+         <input style="margin: 5px;" type="text" name="password" />
+
+         <input style="margin: 5px;" type="submit" class="btn btn-warning" value="Войти">
+
+       <div>
+    <div>
+  <div>
+
+</form>
+{% endblock %}
