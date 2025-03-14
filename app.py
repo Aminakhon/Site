@@ -31,12 +31,12 @@ def login():
     else:
         return render_template('login.html', error='Что-то не так')
 
-@app.route('/reg')
+@app.route('/register')
 def reg():
     return render_template('reg.html', error = '')
 
 
-@app.route('/reg', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def regin():
     login = request.form.get('login')
     password = request.form.get('password')
@@ -50,16 +50,21 @@ def regin():
 
         db.session.add(user)
         db.session.commit()
-        return redirect('/page')
+        return redirect('/api/profile/<user.id>')
     else:
         return render_template('reg.html', error='Вы не можете иметь пустой логин/пароль/имя')
 
+@app.route('/api/profile/<int:id>')
+def prof(id):
+    user = Users.query.filter_by(id=id).first()
+    present_user(user)
+    return render_template('reg.html', error = '', user=user)
 
 # получаем все задачи
 @app.route('/api/library', methods=['GET'])
 def get_supplements():
     supplements = Supplements.query.all()
-    return [present_supplement(supplement) for supplement in supplements]
+    return render_template('library.html', supplements=supplements)
 
 
 
