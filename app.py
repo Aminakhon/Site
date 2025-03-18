@@ -3,7 +3,6 @@ from models import *
 from presents import *
 
 
-# презентер для задачи
 
 
 @app.route('/logout')
@@ -14,6 +13,19 @@ def logout():
 @app.route('/')
 def main():
     return render_template('hello.html')
+
+@app.route('/page')
+
+def index():
+
+    login = session.get('login', False)
+    password = session.get('password', False)
+    user = User.query.filter_by(login=login).first()
+    if user and user.password == password:
+        session['id'] = user.id
+        return render_template('memes.html', memes = memes)
+    else:
+        return render_template('login.html', error='')
 
 @app.route('/login', methods=['POST'])
 
@@ -26,12 +38,13 @@ def login():
     if user and user.password == password:
         session['login'] = request.form.get('login')
         session['password'] = request.form.get('password')
-        return redirect('/page')
+
+        return redirect('/api/<user.id>/profile')
 
     else:
         return render_template('login.html', error='Что-то не так')
 
-@app.route('/register')
+@app.route('/register', methods=['GET'])
 def reg():
     return render_template('reg.html', error = '')
 
@@ -50,21 +63,37 @@ def regin():
 
         db.session.add(user)
         db.session.commit()
-        return redirect('/api/profile/<user.id>')
+        return redirect('/api/<user.id>/profile')
     else:
         return render_template('reg.html', error='Вы не можете иметь пустой логин/пароль/имя')
 
-@app.route('/api/profile/<int:id>')
+@app.route('/api/<int:id>/profile')
 def prof(id):
     user = Users.query.filter_by(id=id).first()
     present_user(user)
     return render_template('reg.html', error = '', user=user)
 
 # получаем все задачи
-@app.route('/api/library', methods=['GET'])
-def get_supplements():
+@app.route('/api/<int:id>/library', methods=['GET'])
+def get_supplements(id):
     supplements = Supplements.query.all()
-    return render_template('library.html', supplements=supplements)
+    return render_template('library.html', supplements=supplements, id=id)
+
+@app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['POST'])
+def add_supplements(user_id, sup_id):
+    supplement = Supplements.query.filter_by(id=sup_id)
+
+    user = Users.query.filter_by(user_id=user_id, supplement_id=sup_id).first()
+
+    if user:
+        return render_template('library.html', error='БАД уже добавлен')
+
+    user_supplement = User_Supplements(user_id=user_id, supplement_id=sup_id)
+
+    db.session.add(user_supplement)
+    db.session.commit()
+
+    return redirect('/api/<user_id>/timetable')
 
 @app.route('/api/<int:id>/timetable', methods=['GET'])
 def get_timetable(id):
