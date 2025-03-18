@@ -66,8 +66,10 @@ def get_supplements():
     supplements = Supplements.query.all()
     return render_template('library.html', supplements=supplements)
 
-
-
+@app.route('/api/<int:id>/timetable', methods=['GET'])
+def get_timetable(id):
+    supplements = User_Supplements.query.filter_by(user_id=id)
+    return render_template('timetable.html', supplements=supplements)
 
 
 
