@@ -30,7 +30,6 @@ def index():
 @app.route('/login', methods=['POST'])
 
 def login():
-    sth = False
     login = request.form.get('login')
     password = request.form.get('password')
     user = Users.query.filter_by(login=login).first()
