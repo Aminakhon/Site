@@ -14,18 +14,6 @@ def logout():
 def main():
     return render_template('hello.html')
 
-@app.route('/page')
-
-def index():
-
-    login = session.get('login', False)
-    password = session.get('password', False)
-    user = User.query.filter_by(login=login).first()
-    if user and user.password == password:
-        session['id'] = user.id
-        return render_template('memes.html', memes = memes)
-    else:
-        return render_template('login.html', error='')
 
 @app.route('/login', methods=['POST'])
 
@@ -35,9 +23,6 @@ def login():
     user = Users.query.filter_by(login=login).first()
 
     if user and user.password == password:
-        session['login'] = request.form.get('login')
-        session['password'] = request.form.get('password')
-
         return redirect('/api/<user.id>/profile')
 
     else:
