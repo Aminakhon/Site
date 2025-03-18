@@ -15,6 +15,11 @@ def main():
     return render_template('hello.html')
 
 
+@app.route('/login', methods=['GET'])
+
+def login():
+        return render_template('login.html')
+
 @app.route('/login', methods=['POST'])
 
 def login():
