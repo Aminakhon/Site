@@ -16,13 +16,11 @@ def main():
 
 
 @app.route('/login', methods=['GET'])
-
 def login():
         return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
-
-def login():
+def add_login():
     login = request.form.get('login')
     password = request.form.get('password')
     user = Users.query.filter_by(login=login).first()
@@ -33,12 +31,12 @@ def login():
     else:
         return render_template('login.html', error='Что-то не так')
 
-@app.route('/register', methods=['GET'])
+@app.route('/registred', methods=['GET'])
 def reg():
     return render_template('reg.html', error = '')
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/registred', methods=['POST'])
 def regin():
     login = request.form.get('login')
     password = request.form.get('password')
