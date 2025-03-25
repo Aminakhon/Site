@@ -10,11 +10,32 @@
 
 
 
-{% block content %}
-{% endblock %}
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+<nav style="background: #00C597;" class="navbar navbar-expand-lg" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Что-то на арабском</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> <!-- ms-auto для смещения вправо -->
+        <li class="nav-item">
+          <a href="/api/{{ user_id }}/timetable" class="btn btn-dark me-2" style="background: #00C597;">Расписание</a> <!-- me-2 для отступа справа -->
+        </li>
+        <li class="nav-item">
+          <a href="/api/{{ user_id }}/library" class="btn btn-dark" style="background: #00C597;">Библиотека</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</p>
+{% block content %}
+{% endblock %}
 </body>
 </html>
