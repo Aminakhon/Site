@@ -12,29 +12,30 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-<form method="post" action="/login">
-  <div class="container">
-    <div class="col-lg-3 col-md-4 col-12 my-3">
-       <div class="row">
-         {% if error != '' %}
-           <div class="alert alert-warning" role="alert">
-                {{error}}
-           </div>
-         {% endif %}
 
-         <label style="margin: 5px;">Login:</label>
-         <input style="margin: 5px;" type="text" name="login" />
-    
-         <label style="margin: 5px;">Password:</label>
-         <input style="margin: 5px;" type="password" name="password" />
+<div class="container-fluid">
+    <div class="col-lg-3 col-md-4 col-12 my-3" style="max-width: 400px; margin-left: auto; margin-right: auto;">
+        <form method="post" action="/login">
+            <div class="row">
+                {% if error != '' %}
+                <div class="alert alert-warning" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
 
-         <input style="margin: 5px;" type="submit" class="btn btn-warning" value="Войти">
+                <label style="margin: 5px;">Login:</label>
+                <input style="margin: 5px;" type="text" name="login"/>
 
-       <div>
-    <div>
-  <div>
+                <label style="margin: 5px;">Password:</label>
+                <input style="margin: 5px;" type="password" name="password"/>
 
-</form>
+                <input style="margin: 5px;" type="submit" class="btn btn-warning" value="Войти">
+
+            </div>
+
+        </form>
+    </div>
+</div>
 
 </body>
 </html>
