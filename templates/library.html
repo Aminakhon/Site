@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'base.html' %}
+{% block  content %}
 <body>
 
+ <div class="container py-5">
+        <h1 class="text-center mb-4">Библиотека БАДов</h1>
+
+        <div class="list-container">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Список</h5>
+
+                </div>
+
+{% for sup in supplements %}
+    <div class="card-body" >
+        <h6 class="card-title">{{ sup['name'] }}</h6>
+        <p class="small">{{ sup['description'] }}
+        <form method="get">
+        <a href="/api/{{user_id}}/library/{{ sup['id'] }}" class="btn btn-success">Подробнее</a>
+    </form>
+        <form method="post" action="/api/{{user_id}}/library/{{ sup['id'] }}">
+            <input style="margin: 5px;" type="submit" class="btn btn-success" value="Добавить">
+        </form>
+
+            {% endfor %}
+
+    </div>
 </body>
-</html>
+{% endblock %}

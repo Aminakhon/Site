@@ -76,6 +76,14 @@ def get_supplements(id):
     supplements = Supplements.query.all()
     return render_template('library.html', supplements=supplements, user_id=id)
 
+
+@app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['GET'])
+def get_supplement(user_id, sup_id):
+    supplement = Supplements.query.filter_by(id=sup_id)
+
+    return render_template('text.html', supplement=supplement, user_id=id)
+
+
 @app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['POST'])
 def add_supplements(user_id, sup_id):
     supplement = Supplements.query.filter_by(id=sup_id)
