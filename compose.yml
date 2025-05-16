@@ -6,11 +6,6 @@ services:
     container_name: sup_app_container
     ports:
       - "1850:1850"
-    environment:
-      - PORT=1850
-      # Пример, если нужны переменные окружения
-      # - ENV=development
-      # - SECRET_KEY=placeholder_secret
     volumes:
       # Пример: подключаем локальную директорию /app, если хотим видеть изменения в реальном времени
       # - .:/app
