@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b3d0aaa-410c-44bd-909c-686e04c13321" name="Changes" comment="Merge remote-tracking branch 'origin/main'">
+      <change afterPath="$PROJECT_DIR$/instance/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/site.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dockerignore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sup_app.nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/sup_app.nginx.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,11 +59,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Аминахон/PycharmProjects/Site"
+    "last_opened_file_path": "C:/Users/Аминахон/PycharmProjects/Site/instance"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Аминахон\PycharmProjects\Site\instance" />
       <recent name="C:\Users\Аминахон\PycharmProjects\Site" />
       <recent name="C:\Users\Аминахон\PycharmProjects\Site\templates" />
     </key>
@@ -288,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747393184396</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Merge remote-tracking branch 'origin/main'">
+      <option name="closed" value="true" />
+      <created>1747393786253</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1747393786253</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -7,7 +7,5 @@ services:
     ports:
       - "1850:1850"
     volumes:
-      # Пример: подключаем локальную директорию /app, если хотим видеть изменения в реальном времени
-      # - .:/app
-      - ./storage:/app/storage
+      - ./instance:/app/instance
     restart: unless-stopped
