@@ -76,29 +76,33 @@ def get_supplements(id):
     supplements = Supplements.query.all()
     return render_template('library.html', supplements=supplements, user_id=id)
 
-
 @app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['GET'])
 def get_supplement(user_id, sup_id):
-    supplement = Supplements.query.filter_by(id=sup_id)
-
-    return render_template('text.html', supplement=supplement, user_id=id)
+    supplement = Supplements.query.get_or_404(sup_id)
+    return render_template('text.html',
+                         supplement=supplement,
+                         user_id=user_id)
 
 
 @app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['POST'])
 def add_supplements(user_id, sup_id):
-    supplement = Supplements.query.filter_by(id=sup_id)
+    try:
+        # Проверка существования связи
+        if User_Supplements.query.filter_by(user_id=user_id, supplement_id=sup_id).first():
+            return redirect(f'/api/{user_id}/library')
 
-    user = Users.query.filter_by(user_id=user_id, supplement_id=sup_id).first()
+        # Создание связи
+        new_link = User_Supplements(user_id=user_id, supplement_id=sup_id)
+        db.session.add(new_link)
+        db.session.commit()
 
-    if user:
-        return render_template('library.html', error='БАД уже добавлен', user_id=user_id)
+        return redirect(f'/api/{user_id}/timetable')
 
-    user_supplement = User_Supplements(user_id=user_id, supplement_id=sup_id)
+    except Exception as e:
+        db.session.rollback()
+        return redirect(f'/api/{user_id}/library')
 
-    db.session.add(user_supplement)
-    db.session.commit()
 
-    return redirect('/api/<user_id>/timetable')
 
 @app.route('/api/<int:id>/profile', methods=['GET'])
 def get_timetable(id):
