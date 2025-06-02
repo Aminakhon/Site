@@ -107,9 +107,23 @@ def add_supplements(user_id, sup_id):
 @app.route('/api/<int:id>/profile', methods=['GET'])
 def get_timetable(id):
     supplements = User_Supplements.query.filter_by(user_id=id)
-    return render_template('profile.html', supplements=supplements, user_id=id)
+    user = Users.query.filter_by(id=id).first()
+    if not user:
+        return redirect('/')
+    return render_template('profile.html', supplements=supplements, user=user, user_id=id)
 
+@app.route('/api/<int:id>/timetable/<int:sup_id>', methods=['POST'])
+def del_sup(id, sup_id):
+    if request.form.get('_method') == 'DELETE':
+        supplement = User_Supplements.query.filter_by(supplement_id=sup_id, user_id=id).first()
 
+    if not supplement:
+        return jsonify({'reason': 'Supplement not found'}), 400
+    # удаляем запись
+    db.session.delete(supplement)
+    # сохраняем изменения
+    db.session.commit()
+    return redirect(f'/api/{id}/timetable')
 
 @app.route('/favicon.ico')
 def favicon():

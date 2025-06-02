@@ -14,8 +14,11 @@
                 <div class="card-body">
                     {% for note in notes %}
                        <h6 class="card-title">{{ note['name'] }}</h6>
-                        <p class="small">{{ note['description'] }}
-
+                       <p class="small">{{ note['description'] }}</p>
+                       <form method="POST" action="/api/{{user_id}}/timetable/{{ note['id'] }}" class="d-inline">
+                             <input type="hidden" name="_method" value="DELETE">
+                             <button type="submit" class="btn btn-sm btn-success">Убрать бяку</button>
+                       </form>
                     {% endfor %}
 
                 </div>
