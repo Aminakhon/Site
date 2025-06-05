@@ -11,14 +11,24 @@
         <div class="card-body p-0">
             {% for sup in supplements %}
             <div class="border-bottom p-3">
-                <h6 class="card-title">{{ sup['name'] }}</h6>
-                <p class="small text-muted mb-2">{{ sup['description'] }}</p>
+                <h6 class="card-title">{{ sup.name }}</h6>
+                <p class="small text-muted mb-2">{{ sup.description }}</p>
 
                 <div class="d-flex gap-2">
-                    <a href="/api/{{user_id}}/library/{{ sup['id'] }}" class="btn btn-sm btn-success">Подробнее</a>
-                    <form method="post" action="/api/{{user_id}}/library/{{ sup['id'] }}" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-success">Добавить</button>
-                    </form>
+                    {% if current_user_supplements and sup.id in current_user_supplements %}
+                        <a href="/api/{{user_id}}/library/{{ sup.id }}" class="btn btn-sm btn-success">Подробнее</a>
+                        <form method="POST" action="/api/{{user_id}}/timetable/{{ sup.id }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="/api/{{user_id}}/library/{{ sup.id }}" class="btn btn-sm btn-success">Подробнее</a>
+                        <form method="post" action="/api/{{user_id}}/library/{{ sup.id }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success">Добавить</button>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

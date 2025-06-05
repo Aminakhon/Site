@@ -68,20 +68,52 @@ def prof(id):
     user = Users.query.filter_by(id=id).first()
     present_user(user)
     notes = presentsup(id)
-    return render_template('timetable.html', error = '', user=user, notes=notes, user_id=id)
+    Mor = []
+    Noon = []
+    Even = []
+    for i in notes:
+        if i['time'] == "MORNING":
+            Mor.append(i)
+        elif i['time'] == "AFTERNOON" or i['time'] == "NOON":
+            Noon.append(i)
+        elif i['time'] == "EVENING":
+            Even.append(i)
+            print(i)
+    return render_template('timetable.html', error = '', user=user, notes=notes, user_id=id, Mor = Mor, Noon = Noon, Even = Even)
 
 # получаем все задачи
 @app.route('/api/<int:id>/library', methods=['GET'])
 def get_supplements(id):
     supplements = Supplements.query.all()
-    return render_template('library.html', supplements=supplements, user_id=id)
+
+    # Получаем ID всех добавок пользователя
+    user_supplements = User_Supplements.query.filter_by(user_id=id).all()
+    current_user_supplements = [us.supplement_id for us in user_supplements]
+
+    return render_template(
+        'library.html',
+        supplements=supplements,
+        current_user_supplements=current_user_supplements,
+        user_id=id
+    )
+
 
 @app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['GET'])
 def get_supplement(user_id, sup_id):
     supplement = Supplements.query.get_or_404(sup_id)
-    return render_template('text.html',
-                         supplement=supplement,
-                         user_id=user_id)
+
+    # Проверяем, есть ли уже эта добавка у пользователя
+    is_added = User_Supplements.query.filter_by(
+        user_id=user_id,
+        supplement_id=sup_id
+    ).first() is not None
+
+    return render_template(
+        'text.html',
+        supplement=supplement,
+        user_id=user_id,
+        is_added=is_added  # Передаем флаг наличия БАДа у пользователя
+    )
 
 
 @app.route('/api/<int:user_id>/library/<int:sup_id>', methods=['POST'])
@@ -96,7 +128,7 @@ def add_supplements(user_id, sup_id):
         db.session.add(new_link)
         db.session.commit()
 
-        return redirect(f'/api/{user_id}/timetable')
+        return redirect(f'/api/{user_id}/library')
 
     except Exception as e:
         db.session.rollback()

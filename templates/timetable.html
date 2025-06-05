@@ -1,30 +1,115 @@
 {% extends 'base.html' %}
-{% block  content %}
-<body>
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Расписание приема</h1>
 
- <div class="container py-5">
-        <h1 class="text-center mb-4">Расписание</h1>
-
-        <div class="list-container">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">Список</h5>
-
+    <div class="row">
+        <!-- Утро -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Утро</h5>
+                    <span class="badge bg-white text-warning">{{ Mor|length }}</span>
                 </div>
                 <div class="card-body">
-                    {% for note in notes %}
-                       <h6 class="card-title">{{ note['name'] }}</h6>
-                       <p class="small">{{ note['description'] }}</p>
-                       <form method="POST" action="/api/{{user_id}}/timetable/{{ note['id'] }}" class="d-inline">
-                             <input type="hidden" name="_method" value="DELETE">
-                             <button type="submit" class="btn btn-sm btn-success">Убрать бяку</button>
-                       </form>
-                    {% endfor %}
-
+                    {% if Mor %}
+                        {% for note in Mor %}
+                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
+                            <h6>{{ note.name }}</h6>
+                            <p class="small text-muted mb-2">{{ note.description }}</p>
+                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-3">
+                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                            <p class="text-muted mt-2">Нет добавок на утро</p>
+                        </div>
+                    {% endif %}
                 </div>
+            </div>
+        </div>
 
+        <!-- День -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">День</h5>
+                    <span class="badge bg-white text-info">{{ Noon|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% if Noon %}
+                        {% for note in Noon %}
+                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
+                            <h6>{{ note.name }}</h6>
+                            <p class="small text-muted mb-2">{{ note.description }}</p>
+                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-3">
+                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                            <p class="text-muted mt-2">Нет добавок на день</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Вечер -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Вечер</h5>
+                    <span class="badge bg-white text-primary">{{ Even|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% if Even %}
+                        {% for note in Even %}
+                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
+                            <h6>{{ note.name }}</h6>
+                            <p class="small text-muted mb-2">{{ note.description }}</p>
+                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-3">
+                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                            <p class="text-muted mt-2">Нет добавок на вечер</p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-</body>
+</div>
+
+<style>
+    .supplement-card {
+        transition: transform 0.2s;
+    }
+    .supplement-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
 {% endblock %}

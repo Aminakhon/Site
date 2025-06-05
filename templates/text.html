@@ -7,37 +7,47 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ supplement.name }}</h2>
                     <div class="card-text">
-                            <p>{{ supplement.description }}</p>
+                        <p>{{ supplement.description }}</p>
                     </div>
                 </div>
             </div>
 
-         <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Когда принимать</h5>
-                <p>
-                    {% if supplement.time == 'MORNING' %}
-                        <strong>Утро</strong> - лучшее время для приема
-                    {% elif supplement.time == 'NOON' %}
-                        <strong>День</strong> - оптимальное время
-                    {% elif supplement.time == 'AFTERNOON' %}
-                        <strong>После полудня</strong> - рекомендуемое время
-                    {% else %}
-                        <strong>Вечер</strong> - предпочтительное время
-                    {% endif %}
-                </p>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Когда принимать</h5>
+                    <p>
+                        {% if supplement.time == 'MORNING' %}
+                            <strong>Утро</strong> - лучшее время для приема
+                        {% elif supplement.time == 'NOON' %}
+                            <strong>День</strong> - оптимальное время
+                        {% elif supplement.time == 'AFTERNOON' %}
+                            <strong>После полудня</strong> - рекомендуемое время
+                        {% else %}
+                            <strong>Вечер</strong> - предпочтительное время
+                        {% endif %}
+                    </p>
+                </div>
             </div>
-        </div>
 
             <div class="d-flex justify-content-between">
                 <a href="/api/{{ user_id }}/library" class="btn btn-outline-secondary">
                     ← Назад
                 </a>
-                <form method="post" action="/api/{{ user_id }}/library/{{ supplement.id }}">
-                    <button class="btn" style="background-color: #00C597; color: white; border: none;">>
-                        Добавить в мои БАДы
-                    </button>
-                </form>
+
+                {% if is_added %}
+                    <form method="POST" action="/api/{{ user_id }}/timetable/{{ supplement.id }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-danger">
+                            Удалить из моих БАДов
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="post" action="/api/{{ user_id }}/library/{{ supplement.id }}">
+                        <button class="btn" style="background-color: #00C597; color: white; border: none;">
+                            Добавить в мои БАДы
+                        </button>
+                    </form>
+                {% endif %}
             </div>
         {% else %}
             <div class="alert alert-danger">
@@ -46,5 +56,4 @@
         {% endif %}
     </div>
 </body>
-
 {% endblock %}
