@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>МультиВита</title>
@@ -8,20 +8,17 @@
 </head>
 <body>
 
-
-<p class="text-center">
-
-
-    <nav style="background: #00C597;" class="navbar navbar-expand-lg" data-bs-theme="dark">
+<nav style="background: #00C597;" class="navbar navbar-expand-lg" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">МультиВита</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> <!-- ms-auto для смещения вправо -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a href="/login" class="btn btn-dark me-2">Войти</a> <!-- me-2 для отступа справа -->
+          <a href="/login" class="btn btn-dark me-2">Войти</a>
         </li>
         <li class="nav-item">
           <a href="/registred" class="btn btn-dark">Регистрация</a>
@@ -31,69 +28,65 @@
   </div>
 </nav>
 
-<div id="carouselExampleDark" class="carousel carousel-dark slide">
+<div id="carouselExampleDark" class="carousel carousel-dark slide mb-4" style="max-height: 400px; overflow: hidden;">
   <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Слайд 1"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Слайд 2"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Слайд 3"></button>
   </div>
   <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="10000">
+    <div class="carousel-item active" data-bs-interval="7000">
       <div class="text-center">
-      <img src="/static/images/timetable.png" class="rounded mx-auto d-block w-50" alt="Make timetable">
+        <img src="/static/images/multi.png" class="d-block mx-auto" style="width: 100%; max-height: 260px; object-fit: contain;" alt="...">
       </div>
       <div class="carousel-caption d-none d-md-block">
-        <h5>МультиВита</h5>
+        <h5 class="mb-1">Добро пожаловать</h5>
+        <p class="small">Помощник по приёму БАДов</p>
       </div>
     </div>
-    <div class="carousel-item" data-bs-interval="2000">
+    <div class="carousel-item" data-bs-interval="7000">
       <div class="text-center">
-      <img src="/static/images/timetable.png" class="rounded mx-auto d-block w-50" alt="...">
+        <img src="/static/images/multi.png" class="d-block mx-auto" style="width: 100%; max-height: 260px; object-fit: contain;" alt="...">
       </div>
       <div class="carousel-caption d-none d-md-block">
-        <h5>О чем мы?</h5>
-        <p>Это сайт для тех, кто следит за здоровьем и хочет составить расписание для приема БАДов правильно.</p>
+        <h5 class="mb-1">О нас</h5>
+        <p class="small">Умный учет приёма добавок для вашего здоровья</p>
       </div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item" data-bs-interval="7000">
       <div class="text-center">
-      <img src="/static/images/timetable.png" class="rounded mx-auto d-block w-50" alt="...">
+        <img src="/static/images/multi.png" class="d-block mx-auto" style="width: 100%; max-height: 260px; object-fit: contain;" alt="...">
       </div>
       <div class="carousel-caption d-none d-md-block">
-        <h5>Что здесь можно найти?</h5>
-        <p>Список БАДов с пояснениями, возможность составить расписание по времени суток в зависимости от эффективности БАДов</p>
+        <h5 class="mb-1">Что вы найдёте?</h5>
+        <p class="small">БАДы с пояснениями и расписание приёма</p>
       </div>
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
+    <span class="visually-hidden">Назад</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
+    <span class="visually-hidden">Вперёд</span>
   </button>
 </div>
 
-
-
 <div class="container">
-  <div class="row">
-    <div class="col-md-7 col-lg-6">  <!-- На мобильных — 100%, на планшетах — 7/12, на десктопах — 8/12 -->
-      <p  style= 'margin-top: 30px' class="h5 text-left"> БАД - БИОЛОГИ́ЧЕСКИ АКТИ́ВНЫЕ ДОБА́ВКИ к пище, концентраты натуральных или идентичных им биологически активных веществ (в т. ч. жизненно важных пищевых), предназначенных для непосредств. приёма или введения в состав пищевых продуктов. БАД не являются лекарственными средствами и занимают промежуточное положение между ними и собственно пищевыми продуктами.</p>
-
+  <div class="row align-items-center">
+    <div class="col-md-7 col-lg-6">
+      <p class="h5 mt-4">БАД — <strong>биологически активные добавки</strong> к пище. Это концентраты натуральных или идентичных им веществ, предназначенных для приёма внутрь. Они не являются лекарствами, но помогают поддерживать здоровье и восполнять дефицит важных элементов.</p>
     </div>
-    <div class="col-md-5 col-lg-6">  <!-- На мобильных — 100%, на планшетах — 5/12, на десктопах — 4/12 -->
-      <img style= 'margin-top: 30px' src="/static/images/timetable.png" class="img-fluid rounded float-md-right" alt="...">
+    <div class="col-md-5 col-lg-6">
+      <img src="/static/images/timetable.png" class="img-fluid rounded mt-4" alt="...">
     </div>
   </div>
 </div>
 
-
-</p>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
 </body>
-
-
 </html>
