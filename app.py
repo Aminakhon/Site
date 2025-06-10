@@ -3,6 +3,8 @@ from models import *
 from presents import *
 
 
+
+
 def presentsup(id):
     supplements = db.session.query(Supplements)\
                   .join(User_Supplements)\
@@ -160,5 +162,10 @@ def del_sup(id, sup_id):
 @app.route('/favicon.ico')
 def favicon():
     return '', 204  # Отдаем пустой ответ без ошибок
+
+
+
+
+
 if __name__ == '__main__':
     app.run(port=8080)

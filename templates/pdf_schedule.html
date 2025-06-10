@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Моё расписание БАДов</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .time-block {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        .supplement {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Расписание приёма БАДов</h1>
+
+    <!-- Утро -->
+    <div class="time-block">
+        <h2 style="color: #e67e22;">🌅 Утро</h2>
+        {% for item in time_groups.morning.items %}
+        <div class="supplement">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </div>
+        {% else %}
+        <p>Нет добавок на утро</p>
+        {% endfor %}
+    </div>
+
+    <!-- День -->
+    <div class="time-block">
+        <h2 style="color: #3498db;">☀️ День</h2>
+        {% for item in time_groups.afternoon.items %}
+        <div class="supplement">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </div>
+        {% else %}
+        <p>Нет добавок на день</p>
+        {% endfor %}
+    </div>
+
+    <!-- Вечер -->
+    <div class="time-block">
+        <h2 style="color: #9b59b6;">🌙 Вечер</h2>
+        {% for item in time_groups.evening.items %}
+        <div class="supplement">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </div>
+        {% else %}
+        <p>Нет добавок на вечер</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

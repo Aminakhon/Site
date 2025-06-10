@@ -3,102 +3,70 @@
 <div class="container py-5">
     <h1 class="text-center mb-4">Расписание приема</h1>
 
-    <div class="row">
-        <!-- Утро -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Утро</h5>
-                    <span class="badge bg-white text-warning">{{ Mor|length }}</span>
-                </div>
-                <div class="card-body">
-                    {% if Mor %}
-                        {% for note in Mor %}
-                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
-                            <h6>{{ note.name }}</h6>
-                            <p class="small text-muted mb-2">{{ note.description }}</p>
-                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="text-center py-3">
-                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
-                            <p class="text-muted mt-2">Нет добавок на утро</p>
-                        </div>
-                    {% endif %}
+    <!-- Кнопка генерации PDF -->
+    <div class="text-center mb-4">
+        <button id="generatePdfBtn" class="btn btn-success">
+            <i class="bi bi-file-earmark-pdf"></i> Скачать PDF
+        </button>
+        <div id="pdfLoading" class="spinner-border text-primary d-none" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+        <div id="pdfError" class="text-danger mt-2 d-none"></div>
+    </div>
+
+    <!-- Блок с карточками добавок -->
+    <div id="pureSchedule">
+        <div class="row">
+            {% for time, label, color, items in [('MORNING', 'Утро', 'warning', Mor), ('NOON', 'День', 'info', Noon), ('EVENING', 'Вечер', 'primary', Even)] %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-{{ color }} text-white d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">{{ label }}</h5>
+                        <span class="badge bg-white text-{{ color }}">{{ items|length }}</span>
+                    </div>
+                    <div class="card-body">
+                        {% if items %}
+                            {% for note in items %}
+                            <div class="supplement-card mb-3 p-3 border rounded position-relative" data-id="{{ note.id }}" style="cursor: pointer;">
+                                <h6>{{ note.name }}</h6>
+                                <form method="POST" action="/api/{{ user_id }}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-3">
+                                <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                                <p class="text-muted mt-2">Нет добавок на {{ label|lower }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
+    </div>
+</div>
 
-        <!-- День -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">День</h5>
-                    <span class="badge bg-white text-info">{{ Noon|length }}</span>
-                </div>
-                <div class="card-body">
-                    {% if Noon %}
-                        {% for note in Noon %}
-                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
-                            <h6>{{ note.name }}</h6>
-                            <p class="small text-muted mb-2">{{ note.description }}</p>
-                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="text-center py-3">
-                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
-                            <p class="text-muted mt-2">Нет добавок на день</p>
-                        </div>
-                    {% endif %}
-                </div>
+<!-- Модальное окно для описания добавки -->
+<div class="modal fade" id="supplementModal" tabindex="-1" aria-labelledby="supplementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="supplementModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-
-        <!-- Вечер -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Вечер</h5>
-                    <span class="badge bg-white text-primary">{{ Even|length }}</span>
-                </div>
-                <div class="card-body">
-                    {% if Even %}
-                        {% for note in Even %}
-                        <div class="supplement-card mb-3 p-3 border rounded position-relative">
-                            <h6>{{ note.name }}</h6>
-                            <p class="small text-muted mb-2">{{ note.description }}</p>
-                            <form method="POST" action="/api/{{user_id}}/timetable/{{ note.id }}" class="position-absolute top-0 end-0 mt-2 me-2">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Удалить">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="text-center py-3">
-                            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
-                            <p class="text-muted mt-2">Нет добавок на вечер</p>
-                        </div>
-                    {% endif %}
-                </div>
+            <div class="modal-body" id="supplementModalBody">
+                Загрузка описания...
             </div>
         </div>
     </div>
 </div>
 
+<!-- Стили -->
 <style>
     .supplement-card {
         transition: transform 0.2s;
@@ -111,5 +79,70 @@
         background-color: #dc3545;
         color: white;
     }
+    #pdfLoading {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 10px;
+    }
 </style>
+
+<!-- Скрипты -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    // PDF генерация
+    document.getElementById('generatePdfBtn').addEventListener('click', () => {
+        const pdfArea = document.getElementById('pureSchedule');
+        const btn = document.getElementById('generatePdfBtn');
+        const loading = document.getElementById('pdfLoading');
+        const errorDiv = document.getElementById('pdfError');
+        const title = document.querySelector('h1');
+
+        btn.classList.add('d-none');
+        loading.classList.remove('d-none');
+        errorDiv.classList.add('d-none');
+        if (title) title.style.display = 'none';
+
+        const opt = {
+            margin: 0.5,
+            filename: 'Расписание_БАДов.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 1.2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(pdfArea).save().catch(err => {
+            errorDiv.textContent = 'Ошибка при генерации PDF';
+            errorDiv.classList.remove('d-none');
+            console.error(err);
+        }).finally(() => {
+            btn.classList.remove('d-none');
+            loading.classList.add('d-none');
+            if (title) title.style.display = '';
+        });
+    });
+
+    // Обработчик клика по карточке для открытия модального окна
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.supplement-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return; // игнорируем клик по кнопке удаления
+
+                const id = card.dataset.id;
+                fetch(`/api/{{ user_id }}/library/${id}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const title = doc.querySelector('.card-title');
+                        const body = doc.querySelector('.card-text');
+
+                        document.getElementById('supplementModalLabel').innerText = title ? title.textContent : 'Информация';
+                        document.getElementById('supplementModalBody').innerHTML = body ? body.innerHTML : 'Нет описания';
+                        const modal = new bootstrap.Modal(document.getElementById('supplementModal'));
+                        modal.show();
+                    });
+            });
+        });
+    });
+</script>
 {% endblock %}
